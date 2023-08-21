@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, shrink-to-fit=no">
+    <title>Panolens.js panorama infospot</title>
+    <style>
+      html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #000;
+      }
+
+      .view {
+        width: fit-content;
+        color: #000;
+        border-radius: 3px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .view > iframe {
+        width:20vw;
+        height:70vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="view" id="fist-item" style="display:none">
+      <iframe src="https://sketchfab.com/models/92ac8f380d3a4f56aa1bb8753334d55e/embed"></iframe>
+    </div>
+    <div class="view" id="snd-item" style="display:none">
+      <iframe src="https://sketchfab.com/models/0302fbca6ac745bc8db2a6248c21438a/embed"></iframe>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/105/three.min.js"></script>
+    <script src="./js/panolens.min.js"></script>
+
+    <script>
+
+      var infospot, infospot2, panorama, viewer;
+
+      infospot = new PANOLENS.Infospot();
+      infospot.position.set( 5000, -665, -3996.49 );
+      infospot.addHoverElement( document.getElementById( 'snd-item' ), 200 );
+
+      infospot2 = new PANOLENS.Infospot( 300, PANOLENS.DataImage.Info );
+      infospot2.position.set( 5000, -665, 1500 );
+      infospot2.addHoverElement( document.getElementById( 'fist-item' ), 200 );
+
+      panorama1 = new PANOLENS.ImagePanorama('https://pchen66.github.io/Panolens/examples/asset/textures/equirectangular/tunnel.jpg');
+      panorama = new PANOLENS.ImagePanorama( 'https://pchen66.github.io/Panolens/examples/asset/textures/equirectangular/tunnel.jpg');
+      panorama.add( infospot );
+      panorama.add( infospot2 );
+
+      panorama.link(panorama1, new THREE.Vector3(-5000, -665, -3996.49 ));
+      panorama1.link( panorama, new THREE.Vector3(-5000, -665, -3996.49 ));
+
+      viewer = new PANOLENS.Viewer();
+      viewer.add( panorama );
+      viewer.add(panorama1 )
+
+    </script>
+
+  </body>
+</html>
